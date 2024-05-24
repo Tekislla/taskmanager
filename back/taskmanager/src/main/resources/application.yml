@@ -1,0 +1,19 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /manager
+
+spring:
+  application:
+    name: "taskmanager"
+  datasource:
+    url: jdbc:postgresql://database:5432/taskmanager
+    username: postgres
+    password: postgres
+    driver:
+      class: org.hibernate.dialect.PostgreSQL10Dialect
+  liquibase:
+    change-log: classpath:/db/dbchangeLog.xml
+  jpa:
+    hibernate:
+      ddl-auto: none
