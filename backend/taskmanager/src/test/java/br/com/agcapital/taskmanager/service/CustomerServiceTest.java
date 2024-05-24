@@ -36,12 +36,12 @@ class CustomerServiceTest {
 
     @Test
     void saveCustomer_newCustomer_shouldSaveCustomer() {
-        CustomerRequestDTO req = new CustomerRequestDTO();
-        req.setCustomerName("Customer 1");
+        CustomerRequestDTO dto = new CustomerRequestDTO();
+        dto.setCustomerName("Customer 1");
 
         when(customerRepository.save(any(Customer.class))).thenReturn(customer);
 
-        Customer savedCustomer = customerService.saveCustomer(req);
+        Customer savedCustomer = customerService.saveCustomer(dto);
 
         assertNotNull(savedCustomer);
         assertEquals("Customer 1", savedCustomer.getCustomerName());
@@ -51,14 +51,14 @@ class CustomerServiceTest {
 
     @Test
     void saveCustomer_existingCustomer_shouldUpdateCustomer() {
-        CustomerRequestDTO req = new CustomerRequestDTO();
-        req.setId(1L);
-        req.setCustomerName("Updated Customer 1");
+        CustomerRequestDTO dto = new CustomerRequestDTO();
+        dto.setId(1L);
+        dto.setCustomerName("Updated Customer 1");
 
         when(customerRepository.findById(1L)).thenReturn(Optional.of(customer));
         when(customerRepository.save(any(Customer.class))).thenReturn(customer);
 
-        Customer updatedCustomer = customerService.saveCustomer(req);
+        Customer updatedCustomer = customerService.saveCustomer(dto);
 
         assertNotNull(updatedCustomer);
         assertEquals("Updated Customer 1", updatedCustomer.getCustomerName());

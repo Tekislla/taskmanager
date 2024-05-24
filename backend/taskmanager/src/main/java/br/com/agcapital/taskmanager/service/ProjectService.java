@@ -17,16 +17,16 @@ public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
-    public Project saveProject(ProjectRequestDTO req, Customer customer) {
-        if (req.getId() != null) {
-            Project project = findById(req.getId());
+    public Project saveProject(ProjectRequestDTO dto, Customer customer) {
+        if (dto.getId() != null) {
+            Project project = findById(dto.getId());
             if (project != null) {
-                project.setProjectName(req.getProjectName());
+                project.setProjectName(dto.getProjectName());
                 return projectRepository.save(project);
             }
         }
         Project project = new Project();
-        project.setProjectName(req.getProjectName());
+        project.setProjectName(dto.getProjectName());
         project.setCustomer(customer);
         return projectRepository.save(project);
     }
@@ -36,7 +36,7 @@ public class ProjectService {
     }
 
     public List<ProjectResponseDTO> listProjects() {
-        List<ProjectResponseDTO>  returnProjectList = new ArrayList<>();
+        List<ProjectResponseDTO> returnProjectList = new ArrayList<>();
         List<Project> list = (List<Project>) projectRepository.findAll();
 
         for (Project project : list) {

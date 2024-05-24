@@ -1,7 +1,7 @@
 services:
   backend:
     build:
-      context: ./back/taskmanager
+      context: ./backend/taskmanager
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
@@ -12,7 +12,7 @@ services:
 
   frontend:
     build:
-      context: ./front/taskmanager
+      context: ./frontend/taskmanager
       dockerfile: Dockerfile
     ports:
       - "9000:80"

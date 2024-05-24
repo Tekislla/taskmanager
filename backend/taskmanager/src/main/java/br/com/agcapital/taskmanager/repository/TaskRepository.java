@@ -1,6 +1,5 @@
 package br.com.agcapital.taskmanager.repository;
 
-import br.com.agcapital.taskmanager.entity.Project;
 import br.com.agcapital.taskmanager.entity.Task;
 import org.springframework.data.repository.CrudRepository;
 

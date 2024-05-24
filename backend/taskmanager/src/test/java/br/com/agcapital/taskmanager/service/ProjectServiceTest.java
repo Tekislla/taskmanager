@@ -39,8 +39,8 @@ class ProjectServiceTest {
 
     @Test
     void saveProject_newProject_shouldSaveProject() {
-        ProjectRequestDTO req = new ProjectRequestDTO();
-        req.setProjectName("Project 1");
+        ProjectRequestDTO dto = new ProjectRequestDTO();
+        dto.setProjectName("Project 1");
 
         Project project = new Project();
         project.setId(1L);
@@ -49,7 +49,7 @@ class ProjectServiceTest {
 
         when(projectRepository.save(any(Project.class))).thenReturn(project);
 
-        Project savedProject = projectService.saveProject(req, customer);
+        Project savedProject = projectService.saveProject(dto, customer);
 
         assertNotNull(savedProject);
         assertEquals("Project 1", savedProject.getProjectName());
@@ -60,9 +60,9 @@ class ProjectServiceTest {
 
     @Test
     void saveProject_existingProject_shouldUpdateProject() {
-        ProjectRequestDTO req = new ProjectRequestDTO();
-        req.setId(1L);
-        req.setProjectName("Updated Project 1");
+        ProjectRequestDTO dto = new ProjectRequestDTO();
+        dto.setId(1L);
+        dto.setProjectName("Updated Project 1");
 
         Project existingProject = new Project();
         existingProject.setId(1L);
@@ -72,7 +72,7 @@ class ProjectServiceTest {
         when(projectRepository.findById(1L)).thenReturn(Optional.of(existingProject));
         when(projectRepository.save(any(Project.class))).thenReturn(existingProject);
 
-        Project updatedProject = projectService.saveProject(req, customer);
+        Project updatedProject = projectService.saveProject(dto, customer);
 
         assertNotNull(updatedProject);
         assertEquals("Updated Project 1", updatedProject.getProjectName());

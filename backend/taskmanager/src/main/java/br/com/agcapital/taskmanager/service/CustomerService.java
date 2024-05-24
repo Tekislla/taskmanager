@@ -14,16 +14,16 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    public Customer saveCustomer(CustomerRequestDTO req) {
-        if (req.getId() != null) {
-            Customer customer = findById(req.getId());
+    public Customer saveCustomer(CustomerRequestDTO dto) {
+        if (dto.getId() != null) {
+            Customer customer = findById(dto.getId());
             if (customer != null) {
-                customer.setCustomerName(req.getCustomerName());
+                customer.setCustomerName(dto.getCustomerName());
                 return customerRepository.save(customer);
             }
         }
         Customer customer = new Customer();
-        customer.setCustomerName(req.getCustomerName());
+        customer.setCustomerName(dto.getCustomerName());
         return customerRepository.save(customer);
     }
 
