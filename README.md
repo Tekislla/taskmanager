@@ -7,18 +7,19 @@ A aplicação estará rodando no endereço: http://localhost:9000/
 **Tecnologias utilizadas**
 <br>
 
-    Java e spring boot para o backend
-    Liquibase para realizar a migration do banco de dados
-    Vue.js e quasar para o frontend
-    PostgreSQL para o banco de dados
-    Docker para facilitar na hora de rodar a aplicação
+* Java e spring boot para o backend
+* Liquibase para realizar a migration do banco de dados
+* Vue.js e quasar para o frontend
+* PostgreSQL para o banco de dados
+* Docker para facilitar na hora de rodar a aplicação
+
+<br>
 
 **Setup do projeto**
 <br>
 <br>
 Requisitos:
-
-    Docker
+* Docker
 <br>
 Na pasta raiz, onde se encontra o docker-compose.yaml, rodar o comando:
 <br>
@@ -49,4 +50,6 @@ Diagrama de classes:
 <br>
 **Pontos de melhoria e observações**
 <br>
-Gostaria de ter tido mais tempo para implementar duas novas entidades: Squad e User, para atribuir um projeto à um squad além de um cliente, e também para atribuir uma task a um user, ao invés de atribuir apenas à um projeto.
+* Classes Squad e User: gostaria de ter tido mais tempo para implementar estas classes, para relacionar um projeto à uma squad e atribuir uma tarefa à um user;
+* Campos adicionais na tarefa: seria interessante adicionar campos adicionais às tarefas, como: data de criação, estimativa de entrega, data de entrega, etc;
+* Status dinâmicos das tarefas: com essa adição, o próprio usuário criaria os boards (ex: done, in progress, etc.) ao invés de utilizar os que foram previamente criados.
