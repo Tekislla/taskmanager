@@ -27,7 +27,7 @@
               size="md"
               label="Create customer"
               no-caps
-              color="black"
+              color="teal"
               :disable="!newCustomerName || newCustomerName.length > 100"
             />
           </q-card-actions>

@@ -12,6 +12,7 @@
       @open-new-project-modal="openNewProjectModal()"
       @update:projectModalOpen="projectModalOpen = $event"
     />
+
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
         <q-item clickable @click="this.actualProjectId = null">
@@ -40,6 +41,7 @@
         </q-expansion-item>
       </q-list>
     </q-drawer>
+
     <q-page-container>
       <q-tab-panels v-model="tab" animated v-show="actualProjectId !== null">
         <q-tab-panel name="CREATED">
@@ -48,42 +50,45 @@
             :actual-status="this.tab"
             :project-id="this.actualProjectId"
             :tasks="this.createdTasks"
-            @update-task="submitTaskForm($event)"
-            @update-tasklist="fetch()"
-            @project-delete="onProjectDelete()"
+            @update-task="submitTaskForm($event, 'updated')"
+            @delete-task="onTaskDelete()"
+            @delete-project="onProjectDelete()"
             @open-new-task-modal="openNewTaskModal()"
           ></task-list>
         </q-tab-panel>
         <q-tab-panel name="IN_PROGRESS">
           <task-list
+            v-show="actualProjectId !== null"
             :actual-status="this.tab"
             :project-id="this.actualProjectId"
             :tasks="this.inProgressTasks"
-            @update-task="submitTaskForm($event)"
-            @update-tasklist="fetch()"
-            @project-delete="onProjectDelete()"
+            @update-task="submitTaskForm($event, 'updated')"
+            @delete-task="onTaskDelete()"
+            @delete-project="onProjectDelete()"
             @open-new-task-modal="openNewTaskModal()"
           ></task-list>
         </q-tab-panel>
         <q-tab-panel name="DONE">
           <task-list
+            v-show="actualProjectId !== null"
             :actual-status="this.tab"
             :project-id="this.actualProjectId"
             :tasks="this.doneTasks"
-            @update-task="submitTaskForm($event)"
-            @update-tasklist="fetch()"
-            @project-delete="onProjectDelete()"
+            @update-task="submitTaskForm($event, 'updated')"
+            @delete-task="onTaskDelete()"
+            @delete-project="onProjectDelete()"
             @open-new-task-modal="openNewTaskModal()"
           ></task-list>
         </q-tab-panel>
         <q-tab-panel name="CANCELED">
           <task-list
+            v-show="actualProjectId !== null"
             :actual-status="this.tab"
             :project-id="this.actualProjectId"
             :tasks="this.canceledTasks"
-            @update-task="submitTaskForm($event)"
-            @update-tasklist="fetch()"
-            @project-delete="onProjectDelete()"
+            @update-task="submitTaskForm($event, 'updated')"
+            @delete-task="onTaskDelete()"
+            @delete-project="onProjectDelete()"
             @open-new-task-modal="openNewTaskModal()"
           />
         </q-tab-panel>
@@ -98,7 +103,7 @@
       <new-task-modal
         :projects-list="this.projectsList"
         v-model="taskModalOpen"
-        @submit-task-form="submitTaskForm($event)"
+        @submit-task-form="submitTaskForm($event, 'created')"
       />
       <new-customer-modal
         v-model="customerModalOpen"
@@ -138,6 +143,7 @@ export default defineComponent({
     ProjectsList,
     TaskList,
   },
+
   data() {
     return {
       tab: "CREATED",
@@ -157,11 +163,8 @@ export default defineComponent({
       projectModalOpen: ref(false),
     };
   },
+
   methods: {
-    onProjectDelete() {
-      this.actualProjectId = null;
-      this.fetch();
-    },
     fetch() {
       this.getProjects();
       this.getCustomers();
@@ -207,17 +210,49 @@ export default defineComponent({
         this.fetch();
         this.projectModalOpen = false;
       });
+      this.returnFeedbackMessage("Project created successfully!");
     },
     submitCustomerForm(customer) {
       CustomerService.saveCustomer(customer).then(() => {
         this.getCustomers();
         this.customerModalOpen = false;
       });
+      this.returnFeedbackMessage("Customer created successfully!");
     },
-    submitTaskForm(task) {
+    submitTaskForm(task, action) {
       TaskService.saveTask(task).then(() => {
         this.fetch();
         this.taskModalOpen = false;
+      });
+      this.returnFeedbackMessage("Task " + action + " successfully!");
+    },
+    onTaskDelete() {
+      this.returnFeedbackMessage("Task deleted successfully!");
+      this.fetch();
+    },
+    onProjectDelete() {
+      this.returnFeedbackMessage("Project deleted successfully!");
+      this.actualProjectId = null;
+      this.fetch();
+    },
+    openNewTaskModal() {
+      this.taskModalOpen = true;
+    },
+    openNewCustomerModal() {
+      this.customerModalOpen = true;
+    },
+    openNewProjectModal() {
+      this.projectModalOpen = true;
+    },
+    toggleLeftDrawer() {
+      this.leftDrawerOpen = !this.leftDrawerOpen;
+    },
+    returnFeedbackMessage(notifyMessage) {
+      this.$q.notify({
+        type: "positive",
+        color: "teal",
+        message: notifyMessage,
+        position: "bottom-right",
       });
     },
     clearTaskLists() {
@@ -236,19 +271,8 @@ export default defineComponent({
           task.taskStatus === "CREATED" || task.taskStatus === "IN_PROGRESS"
       ).length;
     },
-    openNewTaskModal() {
-      this.taskModalOpen = true;
-    },
-    openNewCustomerModal() {
-      this.customerModalOpen = true;
-    },
-    openNewProjectModal() {
-      this.projectModalOpen = true;
-    },
-    toggleLeftDrawer() {
-      this.leftDrawerOpen = !this.leftDrawerOpen;
-    },
   },
+
   mounted() {
     this.fetch();
   },

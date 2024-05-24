@@ -18,6 +18,7 @@
               (val) => val.length <= 50 || 'Please use maximum 50 characters',
             ]"
           />
+
           <q-select
             v-model="selectedCustomer"
             :options="customerList"
@@ -35,7 +36,7 @@
               size="md"
               label="Create project"
               no-caps
-              color="black"
+              color="teal"
               :disable="
                 !newProjectName ||
                 !selectedCustomer ||
@@ -53,6 +54,7 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "NewProjectModal",
+
   props: {
     customerList: {
       type: Array,

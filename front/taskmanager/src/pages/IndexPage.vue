@@ -8,6 +8,7 @@
       <div class="flex-row">
         <q-btn
           class="index-btn"
+          color="teal"
           v-on:click="this.$emit('open-new-customer-modal')"
         >
           <div>
@@ -18,6 +19,7 @@
         </q-btn>
         <q-btn
           class="index-btn"
+          color="teal"
           v-on:click="this.$emit('open-new-project-modal')"
         >
           <div>

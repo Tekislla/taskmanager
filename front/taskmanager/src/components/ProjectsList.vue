@@ -7,7 +7,7 @@
     <q-item-section>
       <q-item-label>{{ project.projectName }}</q-item-label>
       <q-item-label caption>Customer: {{ project.customerName }}</q-item-label>
-      <q-item-label class="text-primary" caption>
+      <q-item-label class="text-teal" caption>
         {{ taskListSize }} task(s) open
       </q-item-label>
     </q-item-section>
@@ -19,6 +19,7 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "EssentialLink",
+
   props: {
     project: Object,
     actualProjectId: Number,

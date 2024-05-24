@@ -18,6 +18,7 @@
               (val) => val.length <= 100 || 'Please use maximum 100 characters',
             ]"
           />
+
           <q-input
             v-model="newTaskDescription"
             label="Description"
@@ -31,6 +32,7 @@
                 val.length <= 1000 || 'Please use maximum 1000 characters',
             ]"
           />
+
           <q-select
             v-model="selectedProject"
             :options="projectsList"
@@ -48,7 +50,7 @@
               size="md"
               label="Create task"
               no-caps
-              color="black"
+              color="teal"
               :disable="
                 !newTaskName ||
                 !newTaskDescription ||
@@ -68,6 +70,7 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "NewTaskModal",
+
   props: {
     projectsList: {
       type: Array,

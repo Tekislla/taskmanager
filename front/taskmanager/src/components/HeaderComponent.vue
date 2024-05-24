@@ -10,27 +10,32 @@
       />
 
       <q-toolbar-title> AG Task Manager </q-toolbar-title>
+
       <q-btn
+        v-show="actualProjectId != null"
         v-on:click="this.$emit('open-new-customer-modal')"
         unelevated
         size="md"
         label="New Customer"
         no-caps
         class="header-btn"
+        color="teal"
       />
       <q-btn
+        v-show="actualProjectId != null"
         v-on:click="this.$emit('open-new-project-modal')"
         unelevated
         size="md"
         label="New Project"
         no-caps
         class="header-btn"
+        color="teal"
       />
     </q-toolbar>
 
     <q-tabs align="left" v-model="tabProxy">
       <q-tab name="CREATED" label="Created" v-show="actualProjectId != null">
-        <q-badge color="primary">
+        <q-badge color="teal">
           {{ createdTasks }}
         </q-badge>
       </q-tab>
@@ -39,17 +44,17 @@
         label="In Progress"
         v-show="actualProjectId != null"
       >
-        <q-badge color="primary">
+        <q-badge color="teal">
           {{ inProgressTasks }}
         </q-badge>
       </q-tab>
       <q-tab name="DONE" label="Done" v-show="actualProjectId != null">
-        <q-badge color="primary">
+        <q-badge color="teal">
           {{ doneTasks }}
         </q-badge>
       </q-tab>
       <q-tab name="CANCELED" label="Canceled" v-show="actualProjectId != null">
-        <q-badge color="primary">
+        <q-badge color="teal">
           {{ canceledTasks }}
         </q-badge>
       </q-tab>

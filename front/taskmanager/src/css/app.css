@@ -23,14 +23,27 @@
 
 .header-btn {
   margin: 10px;
-  color: black;
-  background-color: white;
 }
 
 .index-btn {
   margin: 50px 30px;
   width: 150px;
   height: 150px;
-  background-color: black;
-  color: white;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.left-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.right-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }

@@ -9,7 +9,7 @@
             size="md"
             label="New Task"
             no-caps
-            color="black"
+            color="teal"
             :disable="projectId === null"
           />
           <q-btn
@@ -18,10 +18,11 @@
             size="md"
             label="Delete Project"
             no-caps
-            color="negative"
+            color="black"
             :disable="projectId === null"
           />
         </q-card-section>
+
         <q-card-section>
           <q-table
             :rows="tasks"
@@ -50,7 +51,7 @@
                   <q-btn
                     size="md"
                     round
-                    icon="add"
+                    icon="add_task"
                     @click="changeStatus(props.row, 'CREATED')"
                     :disabled="this.actualStatus === 'CREATED'"
                   >
@@ -59,7 +60,7 @@
                   <q-btn
                     size="md"
                     round
-                    icon="edit"
+                    icon="construction"
                     @click="changeStatus(props.row, 'IN_PROGRESS')"
                     :disabled="this.actualStatus === 'IN_PROGRESS'"
                   >
@@ -68,7 +69,7 @@
                   <q-btn
                     size="md"
                     round
-                    icon="check"
+                    icon="done_all"
                     @click="changeStatus(props.row, 'DONE')"
                     :disabled="this.actualStatus === 'DONE'"
                   >
@@ -77,20 +78,11 @@
                   <q-btn
                     size="md"
                     round
-                    icon="cancel"
+                    icon="block"
                     @click="changeStatus(props.row, 'CANCELED')"
                     :disabled="this.actualStatus === 'CANCELED'"
                   >
-                    <q-tooltip>Mark as canceled</q-tooltip>
-                  </q-btn>
-                  <q-btn
-                    color="negative"
-                    size="md"
-                    round
-                    icon="delete"
-                    @click="confirmDeleteTask(props.row)"
-                  >
-                    <q-tooltip>Delete task</q-tooltip>
+                    <q-tooltip>Cancel task</q-tooltip>
                   </q-btn>
                 </q-btn-group>
               </q-td>
@@ -134,6 +126,7 @@
                     val.length <= 100 || 'Please use maximum 100 characters',
                 ]"
               />
+
               <q-input
                 v-model="selectedTaskDescription"
                 label="Description"
@@ -149,47 +142,60 @@
                 ]"
               />
 
-              <q-card-actions align="right">
-                <q-btn
-                  v-show="!isEditingTask"
-                  flat
-                  @click="isEditingTask = false"
-                  label="Close"
-                  color="black"
-                  no-caps
-                  v-close-popup
-                />
-                <q-btn
-                  v-show="isEditingTask"
-                  flat
-                  @click="isEditingTask = false"
-                  label="Cancel"
-                  color="black"
-                  no-caps
-                />
-                <q-btn
-                  v-show="!isEditingTask"
-                  unelevated
-                  @click="isEditingTask = true"
-                  label="Edit task"
-                  color="black"
-                  no-caps
-                />
-                <q-btn
-                  v-show="isEditingTask"
-                  unelevated
-                  @click="saveTask(selectedTask)"
-                  label="Save task"
-                  color="black"
-                  no-caps
-                  :disable="
-                    !selectedTaskName ||
-                    !selectedTaskDescription ||
-                    selectedTaskName.length > 100 ||
-                    selectedTaskDescription.length > 1000 ||
-                    selectedTaskStatus === ''
-                  "
-                />
+              <q-card-actions>
+                <div class="flex-container">
+                  <div class="left-buttons">
+                    <q-btn
+                      unelevated
+                      @click="confirmDeleteTask(selectedTask)"
+                      label="Delete task"
+                      color="black"
+                      no-caps
+                    />
+                  </div>
+                  <div class="right-buttons">
+                    <q-btn
+                      v-show="!isEditingTask"
+                      flat
+                      @click="isEditingTask = false"
+                      label="Close"
+                      color="black"
+                      no-caps
+                      v-close-popup
+                    />
+                    <q-btn
+                      v-show="isEditingTask"
+                      flat
+                      @click="isEditingTask = false"
+                      label="Cancel"
+                      color="black"
+                      no-caps
+                    />
+                    <q-btn
+                      v-show="!isEditingTask"
+                      unelevated
+                      @click="isEditingTask = true"
+                      label="Edit task"
+                      color="teal"
+                      no-caps
+                    />
+                    <q-btn
+                      v-show="isEditingTask"
+                      unelevated
+                      @click="saveTask(selectedTask)"
+                      label="Save task"
+                      color="teal"
+                      no-caps
+                      :disable="
+                        !selectedTaskName ||
+                        !selectedTaskDescription ||
+                        selectedTaskName.length > 100 ||
+                        selectedTaskDescription.length > 1000 ||
+                        selectedTaskStatus === ''
+                      "
+                    />
+                  </div>
+                </div>
               </q-card-actions>
             </div>
           </q-card-section>
@@ -216,11 +222,14 @@ export default defineComponent({
   data() {
     return {
       taskDetailsModalOpen: false,
+      isEditingTask: false,
       selectedTask: {},
       selectedTaskName: "",
       selectedTaskDescription: "",
-      isEditingTask: false,
       selectedTaskStatus: "",
+      pagination: {
+        rowsPerPage: 10,
+      },
       taskStatusList: [
         {
           label: "Created",
@@ -239,16 +248,27 @@ export default defineComponent({
           value: "CANCELED",
         },
       ],
-      pagination: {
-        rowsPerPage: 10,
-      },
       columns: [
+        {
+          name: "details",
+          label: "Details",
+          align: "left",
+        },
         {
           name: "taskName",
           required: true,
           label: "Task Name",
           align: "left",
           field: (row) => row.taskName,
+          format: (val) => `${this.formatTextSize(val, 30)}`,
+          sortable: true,
+        },
+        {
+          name: "taskDescription",
+          required: true,
+          label: "Description",
+          align: "left",
+          field: (row) => row.taskDescription,
           format: (val) => `${this.formatTextSize(val, 30)}`,
           sortable: true,
         },
@@ -262,15 +282,6 @@ export default defineComponent({
           sortable: true,
         },
         {
-          name: "projectName",
-          required: true,
-          label: "Project",
-          align: "left",
-          field: (row) => row.projectName,
-          format: (val) => `${val}`,
-          sortable: true,
-        },
-        {
           name: "customerName",
           required: true,
           label: "Customer",
@@ -280,18 +291,13 @@ export default defineComponent({
           sortable: true,
         },
         {
-          name: "taskDescription",
+          name: "projectName",
           required: true,
-          label: "Description",
+          label: "Project",
           align: "left",
-          field: (row) => row.taskDescription,
-          format: (val) => `${this.formatTextSize(val, 30)}`,
+          field: (row) => row.projectName,
+          format: (val) => `${val}`,
           sortable: true,
-        },
-        {
-          name: "details",
-          label: "Details",
-          align: "left",
         },
         {
           name: "actions",
@@ -375,12 +381,14 @@ export default defineComponent({
     },
     deleteTask(task) {
       TaskService.deleteTask(task.id).then(() => {
-        this.$emit("update-tasklist");
+        this.$emit("delete-task");
+        this.isEditingTask = false;
+        this.taskDetailsModalOpen = false;
       });
     },
     deleteProject(projectId) {
       ProjectService.deleteProject(projectId).then(() => {
-        this.$emit("project-delete");
+        this.$emit("delete-project");
       });
     },
     openTaskDetailsModal(task) {
@@ -393,9 +401,8 @@ export default defineComponent({
       this.taskDetailsModalOpen = true;
     },
     formatTaskStatus(taskStatus) {
-      this.taskStatusList.forEach((status) => {
-        if (status.value === taskStatus) return status.label;
-      });
+      return this.taskStatusList.find((status) => status.value === taskStatus)
+        .label;
     },
     formatTextSize(text, limit) {
       if (!text) return "";
