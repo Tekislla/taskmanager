@@ -1,7 +1,7 @@
-## AG Task Manager
-Desafio técnico para a vaga de desenvolvedor fullstack java + vuejs no grupo AG Capital.
+## Task Manager
+Gerenciador de tarefas utilizando Java e Vue
 
-A aplicação estará rodando no endereço: http://localhost:9000/
+A aplicação estará rodando na porta 9000
 <br>
 <br>
 **Tecnologias utilizadas**
