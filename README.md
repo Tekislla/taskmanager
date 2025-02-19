@@ -50,6 +50,6 @@ Diagrama de classes:
 <br>
 **Pontos de melhoria e observações**
 <br>
-* Classes Squad e User: gostaria de ter tido mais tempo para implementar estas classes, para relacionar um projeto à uma squad e atribuir uma tarefa à um user;
-* Campos adicionais na tarefa: seria interessante adicionar campos adicionais às tarefas, como: data de criação, estimativa de entrega, data de entrega, etc;
-* Status dinâmicos das tarefas: com essa adição, o próprio usuário criaria os boards (ex: done, in progress, etc.) ao invés de utilizar os que foram previamente criados.
+* Classes Squad e User: gostaria de ter tido mais tempo para implementar estas classes, para relacionar um projeto à uma squad e atribuir uma tarefa à um user
+* Campos adicionais na tarefa: seria interessante adicionar campos adicionais às tarefas, como: data de criação, estimativa de entrega, data de entrega, etc
+* Status dinâmicos das tarefas: com essa adição, o próprio usuário criaria os boards (ex: done, in progress, etc.) ao invés de utilizar os que foram previamente criados
